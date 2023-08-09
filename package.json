@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/Sibusky/openai-chat-backend/issues"
   },
-  "homepage": "https://github.com/Sibusky/openai-chat-backend#readme"
+  "homepage": "https://github.com/Sibusky/openai-chat-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
 }
