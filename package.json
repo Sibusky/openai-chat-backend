@@ -1,0 +1,19 @@
+{
+  "name": "openai-chat-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sibusky/openai-chat-backend.git"
+  },
+  "author": "Aleksei Smirnov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sibusky/openai-chat-backend/issues"
+  },
+  "homepage": "https://github.com/Sibusky/openai-chat-backend#readme"
+}
