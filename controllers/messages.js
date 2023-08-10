@@ -26,7 +26,6 @@ module.exports.getMessage = (req, res, next) => {
     })
     .then((responseData) => {
       const message = {
-        id: responseData.id,
         owner: req.user._id,
         date: Date.now().toString(),
         question,
