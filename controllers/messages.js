@@ -1,9 +1,10 @@
 const fetch = require('isomorphic-fetch');
+const Message = require('../models/messages');
 
 const { GPT_KEY } = process.env;
 
 module.exports.getMessage = (req, res, next) => {
-  const { message } = req.body;
+  const { question } = req.body;
 
   fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -13,7 +14,7 @@ module.exports.getMessage = (req, res, next) => {
     },
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: message }],
+      messages: [{ role: 'user', content: question }],
       temperature: 0.7,
     }),
   })
@@ -24,9 +25,15 @@ module.exports.getMessage = (req, res, next) => {
       return response.json();
     })
     .then((responseData) => {
-      const { id } = responseData;
-      const aiResponse = responseData.choices[0].message.content;
-      res.json({ id, response: aiResponse });
+      const message = {
+        id: responseData.id,
+        owner: req.user._id,
+        date: Date.now().toString(),
+        question,
+        response: responseData.choices[0].message.content,
+      };
+      res.json(message);
+      Message.create(message);
     })
     .catch(() => {
       const gptError = new Error('An error occurred while loading chat GPT answer');

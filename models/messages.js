@@ -5,10 +5,22 @@ const messageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  content: {
+  owner: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  question: {
+    type: String,
+    required: true,
+  },
+  response: {
     type: String,
     required: true,
   },
 });
 
-module.exports = mongoose.model('user', messageSchema);
+module.exports = mongoose.model('message', messageSchema);
