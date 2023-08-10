@@ -22,6 +22,6 @@ const bodyValidation = celebrate({
 router.post('/start', loginValidation, login);
 
 // Registration
-router.post('/start', bodyValidation, createUser);
+router.put('/start', bodyValidation, createUser);
 
 module.exports = router;

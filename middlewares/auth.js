@@ -6,7 +6,9 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new Error('There is no authorization header');
+    const missingAuthError = new Error('There is no authorization header');
+    missingAuthError.status = 401;
+    return next(missingAuthError);
   }
 
   const token = authorization.replace('Bearer ', '');
