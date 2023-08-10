@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const User = require('./models/users');
 
 const { PORT } = process.env;
 const DB_URL = 'mongodb+srv://sibusky:ag3qF74AELq5ILMt@cluster0.gwi0hqg.mongodb.net/?retryWrites=true&w=majority';
@@ -16,9 +17,14 @@ app.get('/', (req, res) => {
   res.status(200).json('Server is working');
 });
 
-app.post('/singin', (req, res) => {
-  console.log(req.body);
-  res.status(200).json('Signin page');
+app.post('/singin', async (req, res) => {
+  try {
+    const { name, password } = req.body;
+    const user = await User.create({ name, password });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 async function startApp() {
