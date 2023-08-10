@@ -42,3 +42,28 @@ module.exports.getMessage = (req, res, next) => {
       next(gptError);
     });
 };
+
+module.exports.getAllMessages = (req, res, next) => {
+  Message.find({ owner: req.user._id })
+    .then((message) => res.status(200).send(message))
+    .catch(next);
+};
+
+module.exports.deleteMessage = (req, res, next) => {
+  Message.findById(req.params._id)
+    .then((message) => {
+      if (!message) {
+        throw new Error('This message does not exist');
+      } else if (message.owner.toString() !== req.user._id) {
+        throw new Error('You can delete only ours message');
+      }
+      return message.deleteOne().then(res.status(200).send({ message: `Answer from ${message.date} was deleted` }));
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new Error('Incorrect message data'));
+      } else {
+        next(err);
+      }
+    });
+};
