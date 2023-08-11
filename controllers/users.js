@@ -51,3 +51,26 @@ module.exports.createUser = (req, res, next) => {
       }
     });
 };
+
+module.exports.getCurrentUser = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        const badRequestError = new Error('There is no such user');
+        badRequestError.status = 400;
+        res.send(badRequestError.message);
+        next(badRequestError);
+      }
+      return res.status(200).send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        const badRequestError = new Error('There is no such user');
+        badRequestError.status = 400;
+        res.send(badRequestError.message);
+        next(badRequestError);
+      } else {
+        next(err);
+      }
+    });
+};

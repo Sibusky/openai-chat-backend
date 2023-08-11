@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const { login, createUser } = require('../controllers/users');
+const { login, createUser, getCurrentUser } = require('../controllers/users');
+const auth = require('../middlewares/auth');
 
 const bodyValidation = celebrate({
   body: Joi.object().keys({
@@ -11,8 +12,9 @@ const bodyValidation = celebrate({
 
 // Login
 router.post('/start', bodyValidation, login);
-
 // Registration
 router.put('/start', bodyValidation, createUser);
+// Get current user
+router.get('/start/me', auth, getCurrentUser);
 
 module.exports = router;
