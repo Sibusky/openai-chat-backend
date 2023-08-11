@@ -2,15 +2,6 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('../controllers/users');
 
-// Login validation using celebrate
-const loginValidation = celebrate({
-  body: Joi.object().keys({
-    loginName: Joi.string().required().min(2).max(30),
-    loginPassword: Joi.string().required().min(8),
-  }),
-});
-
-// Registration validation using celebrate
 const bodyValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
@@ -19,7 +10,7 @@ const bodyValidation = celebrate({
 });
 
 // Login
-router.post('/start', loginValidation, login);
+router.post('/start', bodyValidation, login);
 
 // Registration
 router.put('/start', bodyValidation, createUser);
