@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/Sibusky/openai-chat-backend/issues"
   },
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "homepage": "https://github.com/Sibusky/openai-chat-backend#readme",
   "devDependencies": {
     "eslint": "^8.46.0",
