@@ -2,7 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const JWT_SECRET = '1f1w0y9h8PDrezAKoP4XREsjlGnHw3O5NDzH+44aUW0=';
+
+const { NODE_ENV } = process.env;
 
 // Login
 module.exports.login = (req, res, next) => {

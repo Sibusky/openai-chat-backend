@@ -1,7 +1,7 @@
 const fetch = require('isomorphic-fetch');
 const Message = require('../models/messages');
 
-const { GPT_KEY } = process.env;
+const GPT_KEY = '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';
 
 module.exports.postMessage = (req, res, next) => {
   const { question } = req.body;
