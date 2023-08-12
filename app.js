@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const DB_URL = 'mongodb+srv://sibusky:ag3qF74AELq5ILMt@cluster0.gwi0hqg.mongodb.net/?retryWrites=true&w=majority';
-const PORT = 3001;
+
+const { PORT } = process.env;
 
 const app = express();
 
