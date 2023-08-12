@@ -3,7 +3,7 @@ const Message = require('../models/messages');
 
 const { GPT_KEY } = process.env;
 
-module.exports.getMessage = (req, res, next) => {
+module.exports.postMessage = (req, res, next) => {
   const { question } = req.body;
 
   fetch('https://api.openai.com/v1/chat/completions', {
@@ -26,6 +26,7 @@ module.exports.getMessage = (req, res, next) => {
     })
     .then((responseData) => {
       const message = {
+        _id: responseData.id,
         owner: req.user._id,
         date: Date.now().toString(),
         question,

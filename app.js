@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Allow CORS
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://gpt-chat.netlify.app', 'https://gpt-chat.netlify.app/'],
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
   }),
 );
