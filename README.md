@@ -4,7 +4,11 @@ This is the backend part of the application that provides conversation with Open
 
 [https://gpt-chat.netlify.app](https://gpt-chat.netlify.app)
 
-Or you can start the application on localhost. To do that follow the instructions:
+Server is deployed and avalable via link:
+
+[https://openai-chat-backend.onrender.com](https://openai-chat-backend.onrender.com/start)
+
+Also you can start the application on localhost. To do that follow the instructions:
 
 1. Clone both the frontend and backend parts of the app.
 
