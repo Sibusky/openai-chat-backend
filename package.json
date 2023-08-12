@@ -1,0 +1,39 @@
+{
+  "name": "openai-chat-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sibusky/openai-chat-backend.git"
+  },
+  "author": "Aleksei Smirnov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sibusky/openai-chat-backend/issues"
+  },
+  "homepage": "https://github.com/Sibusky/openai-chat-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "celebrate": "^15.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.2"
+  }
+}
