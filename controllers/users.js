@@ -2,6 +2,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 
+const BadRequestError = require('../errors/bad-request-err');
+const ConflictError = require('../errors/conflict-err');
+const NotFoundError = require('../errors/not-found-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 // Login
@@ -15,10 +20,7 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch(() => {
-      const unauthorizedError = new Error('Authentication failed, incorrect name or password');
-      unauthorizedError.status = 401;
-      res.send(unauthorizedError.message);
-      next(unauthorizedError);
+      next(new UnauthorizedError('Authentication failed, incorrect name or password'));
     });
 };
 
@@ -35,19 +37,13 @@ module.exports.createUser = (req, res, next) => {
       name: user.name,
       _id: user._id,
     }))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
-        const badRequestError = new Error('Validation Error. Check input data for name and password');
-        badRequestError.status = 400;
-        res.send(badRequestError.message);
-        next(badRequestError);
-      } else if (error.code === 11000) {
-        const conflictError = new Error('Conflict Error. User with this name already exists');
-        conflictError.status = 1100;
-        res.send(conflictError.message);
-        next(conflictError);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Incorrect data to create user'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('User already exists'));
       } else {
-        next(error);
+        next(err);
       }
     });
 };
@@ -56,19 +52,13 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        const badRequestError = new Error('There is no such user');
-        badRequestError.status = 400;
-        res.send(badRequestError.message);
-        next(badRequestError);
+        throw new NotFoundError('There is no such user');
       }
       return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        const badRequestError = new Error('There is no such user');
-        badRequestError.status = 400;
-        res.send(badRequestError.message);
-        next(badRequestError);
+        next(new BadRequestError('There is no user with such id'));
       } else {
         next(err);
       }

@@ -1,6 +1,11 @@
 const fetch = require('isomorphic-fetch');
 const Message = require('../models/messages');
 
+const BadRequestError = require('../errors/bad-request-err');
+const NotFoundError = require('../errors/not-found-err');
+const ForbiddenError = require('../errors/forbidden-err');
+const InternalServerError = require('../errors/internal-server-error');
+
 const { GPT_KEY } = process.env;
 
 module.exports.postMessage = (req, res, next) => {
@@ -20,7 +25,7 @@ module.exports.postMessage = (req, res, next) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new ForbiddenError('Network response was not ok');
       }
       return response.json();
     })
@@ -36,32 +41,31 @@ module.exports.postMessage = (req, res, next) => {
       Message.create(message);
     })
     .catch(() => {
-      const gptError = new Error('An error occurred while loading chat GPT answer');
-      gptError.status = 500;
-      res.send(gptError.message);
-      next(gptError);
+      next(new InternalServerError('An error occurred while loading chat GPT answer'));
     });
 };
 
 module.exports.getAllMessages = (req, res, next) => {
   Message.find({ owner: req.user._id })
     .then((message) => res.status(200).send(message))
-    .catch(next);
+    .catch(() => {
+      next(new InternalServerError('An error has occured while loading messages'));
+    });
 };
 
 module.exports.deleteMessage = (req, res, next) => {
   Message.findById(req.params._id)
     .then((message) => {
       if (!message) {
-        throw new Error('This message does not exist');
+        throw new NotFoundError('This message does not exist');
       } else if (message.owner.toString() !== req.user._id) {
-        throw new Error('You can delete only ours message');
+        throw new ForbiddenError('You can delete only ours message');
       }
-      return message.deleteOne().then(res.status(200).send({ message: `Answer from ${message.date} was deleted` }));
+      return message.deleteOne().then(res.status(200).send({ message: 'Message was deleted' }));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new Error('Incorrect message data'));
+        next(new BadRequestError('Incorrect message data'));
       } else {
         next(err);
       }

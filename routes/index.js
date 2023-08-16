@@ -11,10 +11,10 @@ const bodyValidation = celebrate({
   }),
 });
 
-// Login
-router.post('/', bodyValidation, login);
 // Registration
-router.put('/', bodyValidation, createUser);
+router.post('/', bodyValidation, createUser);
+// Login
+router.put('/', bodyValidation, login);
 // Get current user
 router.get('/me', auth, getCurrentUser);
 
