@@ -4,9 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const DB_URL = 'mongodb+srv://sibusky:ag3qF74AELq5ILMt@cluster0.gwi0hqg.mongodb.net/?retryWrites=true&w=majority';
-
-const { PORT } = process.env;
+const { PORT, DB_URL } = process.env;
 
 const app = express();
 
